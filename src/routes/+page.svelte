@@ -9,7 +9,7 @@
 		<ul>
 			<li><a class="prose" href="/to/png/">To PNG</a></li>
 			<li><a class="prose" href="/to/jpeg">To JPEG</a></li>
-			<li><a class="prose" href="/to/webp">To WEBP</a></li>
+			<li><a class="prose" href="/to/webp">To WebP</a></li>
 			<li><a class="prose" href="/to/avif">To AVIF</a></li>
 		</ul>
 	</nav>
