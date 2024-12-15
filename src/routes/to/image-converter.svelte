@@ -11,7 +11,7 @@
 	let numFiles: number = $state(0);
 	let input_message = $state();
 	let error: string | undefined = $state();
-	let asArchive = $state(false);
+	let prefersArchive = $state(false);
 
 	function handleChange() {
 		error = undefined;
@@ -26,9 +26,8 @@
 
 	onMount(() => {
 		handleChange();
-		const prefersArchive = !!localStorage.getItem('prefersArchive');
+		prefersArchive = !!localStorage.getItem('prefersArchive');
 		localStorage.setItem('prefersArchive', '' + prefersArchive); // refresh any potential expiry
-		asArchive = numFiles > 1 && prefersArchive;
 	});
 
 	async function handleSubmit(e: SubmitEvent) {
@@ -67,47 +66,25 @@
 			a.remove();
 		}
 
-		if (asArchive) {
+		function rename(file: File) {
+			return file.name.split('.').slice(0, -1).join('.') + '.' + ext;
+		}
+
+		if (prefersArchive && numFiles > 1) {
 			const zipWriter = new ZipWriter(new BlobWriter('application/zip'));
 			const promises = [];
 			for (const file of files) {
-				const name = file.name.split('.').slice(0, -1).join('.') + '.' + ext;
-				promises.push(getDataUrl(file).then((url) => zipWriter.add(name, new HttpReader(url))));
+				promises.push(
+					getDataUrl(file).then((url) => zipWriter.add(rename(file), new HttpReader(url)))
+				);
 			}
 			await Promise.all(promises);
-			download(URL.createObjectURL(await zipWriter.close()), `to_${format}`);
+			download(URL.createObjectURL(await zipWriter.close()), `${numFiles}_to_${format}`);
 		} else {
 			for (const file of files) {
-				const name = file.name.split('.').slice(0, -1).join('.') + '.' + ext;
-				getDataUrl(file).then((url) => download(url, name));
+				getDataUrl(file).then((url) => download(url, rename(file)));
 			}
 		}
-
-		// for (const file of files) {
-		// 	const reader = new FileReader();
-		// 	reader.addEventListener('load', () => {
-		// 		const img = new Image();
-		// 		img.addEventListener('load', () => {
-		// 			const canvas = document.createElement('canvas');
-		// 			const ctx = canvas.getContext('2d');
-
-		// 			canvas.width = img.width;
-		// 			canvas.height = img.height;
-		// 			ctx?.drawImage(img, 0, 0);
-
-		// 			const a = document.createElement('a');
-		// 			a.href = canvas.toDataURL('image/' + format.toLowerCase());
-		// 			const name = file.name.split('.').slice(0, -1).join('.') + '.' + ext;
-		// 			a.download = name;
-		// 			a.click();
-		// 			a.remove();
-
-		// 			canvas.remove();
-		// 		});
-		// 		img.src = reader.result as string;
-		// 	});
-		// 	reader.readAsDataURL(file);
-		// }
 	}
 
 	function handleDrop(e: DragEvent) {
@@ -160,12 +137,12 @@
 								type="checkbox"
 								name="asarchive"
 								id="asarchive"
-								bind:checked={asArchive}
-								onchange={() => localStorage.setItem('prefersArchive', '' + asArchive)}
+								bind:checked={prefersArchive}
+								onchange={() => localStorage.setItem('prefersArchive', '' + prefersArchive)}
 							/>
 							Archive Files
 						</label>
-						{#if asArchive}
+						{#if prefersArchive}
 							<Button type="submit" class="mb-1">Download Archive</Button>
 						{:else}
 							<Button type="submit" class="mb-1">Download All</Button>
