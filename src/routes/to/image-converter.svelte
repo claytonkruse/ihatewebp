@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ZipWriter, BlobWriter, HttpReader } from '@zip.js/zip.js';
+	import { ZipWriter, BlobWriter, HttpReader, TextReader } from '@zip.js/zip.js';
 	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -79,6 +79,15 @@
 					getDataUrl(file).then((url) => zipWriter.add(rename(file), new HttpReader(url)))
 				);
 			}
+			promises.push(
+				zipWriter.add(
+					'thank_you.txt',
+					new TextReader(
+						`Thank you for using my image converter! https://tools.clayk.cc/to/${format.toLowerCase()}/` +
+							'\n'
+					)
+				)
+			);
 			await Promise.all(promises);
 			download(URL.createObjectURL(await zipWriter.close()), `${numFiles}_to_${format}`);
 		} else {
