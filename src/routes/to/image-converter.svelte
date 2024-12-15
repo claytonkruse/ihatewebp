@@ -26,7 +26,8 @@
 
 	onMount(() => {
 		handleChange();
-		prefersArchive = !!localStorage.getItem('prefersArchive');
+		prefersArchive = localStorage.getItem('prefersArchive') === 'true';
+		localStorage.removeItem('prefersArchive');
 		localStorage.setItem('prefersArchive', '' + prefersArchive); // refresh any potential expiry
 	});
 
