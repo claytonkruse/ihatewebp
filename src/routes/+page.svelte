@@ -1,6 +1,6 @@
 <hgroup class="mb-6 mt-4">
 	<h1 class="text-4xl">Clay's Toolbox</h1>
-	<h2>Convert Unlimted Images for Free</h2>
+	<h2>Convert Unlimited Images for Free</h2>
 </hgroup>
 
 <div class="m-auto max-w-80 text-center">

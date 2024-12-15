@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ZipWriter, BlobWriter, HttpReader } from '@zip.js/zip.js';
 	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -7,21 +8,27 @@
 	let { format, ext = format.toLowerCase() } = $props();
 
 	let file_input: HTMLInputElement;
+	let numFiles: number = $state(0);
 	let input_message = $state();
 	let error: string | undefined = $state();
+	let asArchive = $state(false);
 
-	function handleInput() {
+	function handleChange() {
 		error = undefined;
 		input_message = 'Select images...';
-		const numFiles = file_input.files?.length;
-		if (numFiles) {
-			if (numFiles === 1) input_message = 'Selected 1 file.';
-			else input_message = `Selected ${file_input?.files?.length} files.`;
+		const { files } = file_input;
+		numFiles = files?.length ?? 0;
+		if (files?.length) {
+			if (files.length === 1) input_message = 'Selected 1 file.';
+			else input_message = `Selected ${files.length} files.`;
 		}
 	}
 
 	onMount(() => {
-		handleInput();
+		handleChange();
+		const prefersArchive = !!localStorage.getItem('prefersArchive');
+		localStorage.setItem('prefersArchive', '' + prefersArchive); // refresh any potential expiry
+		asArchive = numFiles > 1 && prefersArchive;
 	});
 
 	async function handleSubmit(e: SubmitEvent) {
@@ -29,32 +36,78 @@
 		const { files } = file_input;
 		if (!files || files.length < 1) return (error = 'You must select files.');
 
-		for (const file of files) {
-			const reader = new FileReader();
-			reader.addEventListener('load', () => {
+		async function getDataUrl(file: File) {
+			const canvas = document.createElement('canvas');
+			const ctx = canvas.getContext('2d');
+
+			const img = (await new Promise(async (res) => {
 				const img = new Image();
-				img.src = reader.result as string;
-				img.addEventListener('load', () => {
-					const canvas = document.createElement('canvas');
-					const ctx = canvas.getContext('2d');
-
-					canvas.width = img.width;
-					canvas.height = img.height;
-					ctx?.drawImage(img, 0, 0);
-
-					const a = document.createElement('a');
-					a.href = canvas.toDataURL('image/' + format.toLowerCase());
-
-					const name = file.name.split('.').slice(0, -1).join('.');
-					a.download = name + '.' + ext;
-					a.click();
-
-					a.remove();
-					canvas.remove();
+				img.addEventListener('load', () => res(img));
+				img.src = await new Promise((res2) => {
+					const reader = new FileReader();
+					reader.addEventListener('load', () => res2(reader.result as string));
+					reader.readAsDataURL(file);
 				});
-			});
-			reader.readAsDataURL(file);
+			})) as HTMLImageElement;
+
+			canvas.width = img.width;
+			canvas.height = img.height;
+			ctx?.drawImage(img, 0, 0);
+
+			const url = canvas.toDataURL('image/' + format.toLowerCase());
+			canvas.remove();
+			return url;
 		}
+
+		function download(url: string, name: string) {
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = name;
+			a.click();
+			a.remove();
+		}
+
+		if (asArchive) {
+			const zipWriter = new ZipWriter(new BlobWriter('application/zip'));
+			const promises = [];
+			for (const file of files) {
+				const name = file.name.split('.').slice(0, -1).join('.') + '.' + ext;
+				promises.push(getDataUrl(file).then((url) => zipWriter.add(name, new HttpReader(url))));
+			}
+			await Promise.all(promises);
+			download(URL.createObjectURL(await zipWriter.close()), `to_${format}`);
+		} else {
+			for (const file of files) {
+				const name = file.name.split('.').slice(0, -1).join('.') + '.' + ext;
+				getDataUrl(file).then((url) => download(url, name));
+			}
+		}
+
+		// for (const file of files) {
+		// 	const reader = new FileReader();
+		// 	reader.addEventListener('load', () => {
+		// 		const img = new Image();
+		// 		img.addEventListener('load', () => {
+		// 			const canvas = document.createElement('canvas');
+		// 			const ctx = canvas.getContext('2d');
+
+		// 			canvas.width = img.width;
+		// 			canvas.height = img.height;
+		// 			ctx?.drawImage(img, 0, 0);
+
+		// 			const a = document.createElement('a');
+		// 			a.href = canvas.toDataURL('image/' + format.toLowerCase());
+		// 			const name = file.name.split('.').slice(0, -1).join('.') + '.' + ext;
+		// 			a.download = name;
+		// 			a.click();
+		// 			a.remove();
+
+		// 			canvas.remove();
+		// 		});
+		// 		img.src = reader.result as string;
+		// 	});
+		// 	reader.readAsDataURL(file);
+		// }
 	}
 
 	function handleDrop(e: DragEvent) {
@@ -63,7 +116,7 @@
 		if (!e.dataTransfer?.files.length) return;
 		file_input.files = e.dataTransfer.files;
 
-		handleInput();
+		handleChange();
 	}
 </script>
 
@@ -95,12 +148,32 @@
 							accept="image/*"
 							multiple
 							bind:this={file_input}
-							oninput={handleInput}
+							onchange={handleChange}
 						/>
 						{input_message}
 					</Button>
 				</label>
-				<Button type="submit">Submit</Button>
+				{#if numFiles}
+					{#if numFiles > 1}
+						<label for="asarchive" class="mb-2 block">
+							<input
+								type="checkbox"
+								name="asarchive"
+								id="asarchive"
+								bind:checked={asArchive}
+								onchange={() => localStorage.setItem('prefersArchive', '' + asArchive)}
+							/>
+							Archive Files
+						</label>
+						{#if asArchive}
+							<Button type="submit" class="mb-1">Download Archive</Button>
+						{:else}
+							<Button type="submit" class="mb-1">Download All</Button>
+						{/if}
+					{:else}
+						<Button type="submit">Download</Button>
+					{/if}
+				{/if}
 				{#if error}
 					<div>{error}</div>
 				{/if}
