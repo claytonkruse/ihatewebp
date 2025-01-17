@@ -4,18 +4,17 @@
 	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
 	import { Progress } from '$lib/components/ui/progress';
-	import * as Card from '$lib/components/ui/card';
 	import { onMount } from 'svelte';
+	import FileSelector from '$lib/components/FileSelector.svelte';
 
 	let { data }: { data: PageData } = $props();
 	let { name: format, aliases = [], ext = format.toLowerCase() } = data.format;
 
-	let fileInput: HTMLInputElement | undefined = $state();
-	let inputMessage = $state();
 	let error: string = $state('');
 	let prefersArchive = $state(false);
 
-	let numFiles: number = $state(0);
+	let files: FileList | undefined = $state();
+	let numFiles = $derived(files?.length || 0);
 	let numConverted = $state(0);
 	let numArchived = $state(0);
 
@@ -23,37 +22,22 @@
 	let done = $state(false);
 
 	async function reset() {
-		handleChange();
+		files = undefined;
 		submitted = false;
 		done = false;
 	}
 
-	function handleChange() {
-		error = '';
-		inputMessage = 'Select images...';
-		if (!fileInput) return;
-		const { files } = fileInput;
-		numFiles = files?.length ?? 0;
-		numConverted = 0;
-		numArchived = 0;
-		if (files?.length) {
-			if (files.length === 1) inputMessage = 'Selected 1 file.';
-			else inputMessage = `Selected ${files.length} files.`;
-		}
-	}
-
 	onMount(() => {
-		handleChange();
 		prefersArchive = localStorage.getItem('prefersArchive') === 'true';
 		localStorage.removeItem('prefersArchive');
 		localStorage.setItem('prefersArchive', '' + prefersArchive); // refresh any potential expiry
 	});
 
 	async function handleSubmit(e: SubmitEvent) {
-		submitted = true;
 		e.preventDefault();
-		if (!fileInput) return;
-		const { files } = fileInput;
+		submitted = true;
+		numConverted = 0;
+		numArchived = 0;
 		if (!files || files.length < 1) return (error = 'You must select files.');
 
 		async function getDataUrl(file: File) {
@@ -125,93 +109,57 @@
 
 		done = true;
 	}
-
-	function handleDrop(e: DragEvent) {
-		e.preventDefault();
-
-		if (!e.dataTransfer?.files.length) return;
-		if (!fileInput) return;
-		fileInput.files = e.dataTransfer.files;
-
-		handleChange();
-	}
 </script>
 
-{#if submitted}
-	{#if done}
-		<h1 class="mb-3 text-3xl">Thank you for using my image converter!</h1>
-		<Button onclick={reset}>Convert More</Button>
-	{:else}
-		<h1 class="text-3xl">Converting Files...</h1>
-		<p>Your download should start automatically.</p>
-		<p class="uppercase">{numConverted}/{numFiles} Converted</p>
-		<Progress value={numConverted} max={numFiles} />
-		{#if numFiles > 1 && prefersArchive}
-			<p class="uppercase">{numArchived}/{numFiles} Archived</p>
-			<Progress value={numArchived} max={numFiles} />
-		{/if}
-		<p>{error}</p>
-	{/if}
-{:else}
-	<div
-		class="flex h-full w-full justify-center pb-10"
-		ondragover={(e) => e.preventDefault()}
-		ondrop={handleDrop}
-		role="region"
-	>
-		<Card.Root class="inline-block h-max w-72 self-center text-center">
-			<Card.Header>
-				<Card.Title tag="h1">
-					Convert Images to {format}
-				</Card.Title>
-				<Card.Description
-					>Convert images of any common format into the {format}{#each aliases as alias}/{alias}{/each}
-					format.</Card.Description
-				>
-			</Card.Header>
-			<Card.Content>
-				<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
-					<input type="hidden" name="from" value={$page.url.href} />
-					<label class="mb-3 block" for="file-input">
-						<Button variant="outline" class="h-32 w-full" on:click={() => fileInput?.click()}>
-							<input
-								class="hidden"
-								id="file-input"
-								type="file"
-								accept="image/*"
-								multiple
-								bind:this={fileInput}
-								onchange={handleChange}
-							/>
-							{inputMessage}
-						</Button>
+{#if !submitted}
+	<div class="inline-block h-max w-72 self-center text-center">
+		<h1 class="text-xl font-bold">Convert Images to {format}</h1>
+		<p>
+			Convert images of any common format into the {format}{#each aliases as alias}/{alias}{/each}
+			format.
+		</p>
+		<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
+			<input type="hidden" name="from" value={$page.url.href} />
+
+			<FileSelector bind:files />
+
+			{#if numFiles}
+				{#if numFiles > 1}
+					<label for="asarchive" class="mb-2 block">
+						<input
+							type="checkbox"
+							name="asarchive"
+							id="asarchive"
+							bind:checked={prefersArchive}
+							onchange={() => localStorage.setItem('prefersArchive', '' + prefersArchive)}
+						/>
+						Archive Files
 					</label>
-					{#if numFiles}
-						{#if numFiles > 1}
-							<label for="asarchive" class="mb-2 block">
-								<input
-									type="checkbox"
-									name="asarchive"
-									id="asarchive"
-									bind:checked={prefersArchive}
-									onchange={() => localStorage.setItem('prefersArchive', '' + prefersArchive)}
-								/>
-								Archive Files
-							</label>
-							{#if prefersArchive}
-								<Button type="submit" class="mb-1">Download Archive</Button>
-							{:else}
-								<Button type="submit" class="mb-1">Download All</Button>
-							{/if}
-						{:else}
-							<Button type="submit">Download</Button>
-						{/if}
+					{#if prefersArchive}
+						<Button type="submit" class="mb-1">Save Archive</Button>
+					{:else}
+						<Button type="submit" class="mb-1">Save All</Button>
 					{/if}
-					{#if error}
-						<div>{error}</div>
-					{/if}
-				</form>
-			</Card.Content>
-		</Card.Root>
+				{:else}
+					<Button type="submit">Save Image</Button>
+				{/if}
+			{/if}
+			{#if error}
+				<div>{error}</div>
+			{/if}
+		</form>
 	</div>
+{:else if !done}
+	<h1 class="text-3xl">Converting Files...</h1>
+	<p>Your download should start automatically.</p>
+	<p class="uppercase">{numConverted}/{numFiles} Converted</p>
+	<Progress value={numConverted} max={numFiles} />
+	{#if numFiles > 1 && prefersArchive}
+		<p class="uppercase">{numArchived}/{numFiles} Archived</p>
+		<Progress value={numArchived} max={numFiles} />
+	{/if}
+	<p>{error}</p>
+{:else}
+	<h1 class="mb-3 text-3xl">Thank you for using my image converter!</h1>
+	<Button onclick={reset}>Convert More</Button>
 {/if}
