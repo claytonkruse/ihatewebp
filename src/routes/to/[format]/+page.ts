@@ -39,10 +39,10 @@ import type { EntryGenerator } from './$types';
 export const entries: EntryGenerator = () => {
 	const arr = [];
 	for (const format of formats) {
-		arr.push({ format: format.name });
+		arr.push({ format: format.name.toLowerCase() });
 		if (format.aliases)
 			for (const alias of format.aliases) {
-				arr.push({ format: alias });
+				arr.push({ format: alias.toLowerCase() });
 			}
 	}
 
