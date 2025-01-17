@@ -1,26 +1,27 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import FileSelector from '$lib/components/FileSelector.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
-	import type { PageData } from './$types';
 	import Fraction from 'fraction.js';
-	let { data }: { data: PageData } = $props();
-	let { w, h } = $derived(data);
+	import { onMount } from 'svelte';
+
+	let w: bigint | undefined = $state();
+	let h: bigint | undefined = $state();
+
+	onMount(() => {
+		w = BigInt(page.url.searchParams.get('w') ?? 0) || undefined;
+		h = BigInt(page.url.searchParams.get('h') ?? 0) || undefined;
+	});
+
 	let files: FileList | undefined = $state();
 
 	let f = $derived(new Fraction(w || 0, h || 1));
 
-	let iw: bigint | undefined = $state();
-	let ih: bigint | undefined = $state();
-	$effect(() => {
-		iw = w;
-		ih = h;
-	});
-
 	function setR(nw: bigint, nh: bigint) {
-		iw = nw;
-		ih = nh;
+		w = nw;
+		h = nh;
 		updateUrl();
 	}
 
@@ -32,8 +33,8 @@
 	}
 
 	function updateUrl() {
-		if (!iw || !ih) return;
-		goto(`?w=${iw}&h=${ih}`, { keepFocus: true });
+		if (!w || !h) return;
+		goto(`?w=${w}&h=${h}`, { keepFocus: true });
 	}
 </script>
 
@@ -50,7 +51,7 @@
 		type="number"
 		min="1"
 		class="inline-block w-20"
-		bind:value={iw}
+		bind:value={w}
 		oninput={updateUrl}
 		placeholder="w"
 	/>
@@ -59,11 +60,11 @@
 		type="number"
 		min="1"
 		class="inline-block w-20"
-		bind:value={ih}
+		bind:value={h}
 		oninput={updateUrl}
 		placeholder="h"
 	/>
-	{#if f.n < (iw || 0n)}
+	{#if f.n < (w || 0n)}
 		<br />
 		<Button variant="ghost" onclick={() => setR(f.n, f.d)}>= {f.n}:{f.d}</Button>
 	{/if}
