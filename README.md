@@ -7,8 +7,9 @@ A [SvelteKit](https://svelte.dev/docs/kit/introduction#What-is-SvelteKit) app fo
 - [x] Offline use (service worker)
 - [x] Bulk download archive option
 - [x] Progress bars (esp. for many files)
-- [ ] Paste images from clipboard
-- [ ] Image aspect ratio changer
+- [x] Paste images from clipboard
+- [ ] File zipper
+- [ ] Image aspect ratio changer (letterboxer)
 - [ ] Image rotator (90 deg inc)
 - [ ] Image compressor (shrink to 1080p)
 - [ ] Website icon maker & tool

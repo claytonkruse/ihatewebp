@@ -1,28 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-
-type format = {
-	name: string;
-	aliases?: Array<string>;
-	ext?: string;
-};
-
-const formats: Array<format> = [
-	{
-		name: 'PNG'
-	},
-	{
-		name: 'JPEG',
-		aliases: ['JPG', 'JPE'],
-		ext: 'jpg'
-	},
-	{
-		name: 'WebP'
-	},
-	{
-		name: 'AVIF'
-	}
-];
+import { formats } from '../formats';
 
 export const load: PageLoad = ({ params }) => {
 	for (const format of formats) {

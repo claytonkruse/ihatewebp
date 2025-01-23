@@ -111,6 +111,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Unlimited {format} Converter - Toolbox</title>
+</svelte:head>
+
 {#if !submitted}
 	<div class="inline-block h-max w-72 self-center text-center">
 		<h1 class="text-xl font-bold">Convert Images to {format}</h1>

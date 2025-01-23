@@ -38,14 +38,16 @@
 	}
 </script>
 
-<h1 class="text-xl font-bold">Resize Images</h1>
-<h3>Aspect Ratio</h3>
+<h1 class="text-xl font-bold">Aspect Ratio Letterboxing Tool</h1>
+<h3>Common Ratios</h3>
 <div class="flex justify-center gap-1">
 	<Button {...getP(1, 1)}>1:1</Button>
 	<Button {...getP(16, 9)}>16:9</Button>
 	<Button {...getP(9, 16)}>9:16</Button>
 	<Button {...getP(4, 3)}>4:3</Button>
 </div>
+
+<h3>Custom Ratio</h3>
 <div class="text-center">
 	<Input
 		type="number"
