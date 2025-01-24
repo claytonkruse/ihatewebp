@@ -24,7 +24,7 @@
 			}
 		}
 	}
-	scs = scs.toSorted((a, b) => a.name.localeCompare(b.name)); // sort alphabetically
+	scs = scs.sort((a, b) => a.name.localeCompare(b.name)); // sort alphabetically
 </script>
 
 <svelte:head>
