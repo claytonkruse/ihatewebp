@@ -38,7 +38,7 @@
 
 <nav>
 	<ul>
-		{#each formats.toSorted((a, b) => a.name.localeCompare(b.name)) as format}
+		{#each formats.sort((a, b) => a.name.localeCompare(b.name)) as format}
 			<li>
 				<Button variant="link" class="block h-auto py-1" href={format.name.toLowerCase()}
 					>{format.name} Converter</Button
