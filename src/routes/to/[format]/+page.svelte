@@ -122,6 +122,7 @@
 			Convert images of any common format into the {format}{#each aliases as alias}/{alias}{/each}
 			format.
 		</p>
+		<br />
 		<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
 			<input type="hidden" name="from" value={$page.url.href} />
 

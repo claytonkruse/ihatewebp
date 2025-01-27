@@ -6,7 +6,7 @@
 	<title>Toolbox - Convert Unlimited Images</title>
 </svelte:head>
 
-<hgroup class="mb-6 mt-4">
+<hgroup class="mb-6">
 	<h1 class="text-4xl">Clay's Toolbox</h1>
 	<h2 class="text-muted-foreground">Convert Unlimited Images for Free</h2>
 </hgroup>

@@ -8,6 +8,7 @@ A [SvelteKit](https://svelte.dev/docs/kit/introduction#What-is-SvelteKit) app fo
 - [x] Bulk download archive option
 - [x] Progress bars (esp. for many files)
 - [x] Paste images from clipboard
+- [ ] Copy final image to clipboard
 - [ ] File zipper
 - [ ] Image aspect ratio changer (letterboxer)
 - [ ] Image rotator (90 deg inc)
