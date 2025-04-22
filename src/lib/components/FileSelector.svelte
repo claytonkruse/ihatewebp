@@ -5,15 +5,24 @@
 	let inputMessage = $state('Loading...');
 	let fileInput: HTMLInputElement | undefined = $state();
 
-	let { files = $bindable() }: { files: FileList | undefined } = $props();
+	let {
+		files = $bindable(),
+		onChange,
+		children
+	}: {
+		files?: FileList;
+		onChange?: Function;
+		children?: any;
+	} = $props();
 
-	function handleChange() {
+	async function handleChange() {
 		inputMessage = `Select Files`;
 		document.body.classList.remove('border-zinc-500', 'border-8');
 		if (files?.length) {
 			if (files.length === 1) inputMessage = 'Selected 1 file.';
 			else inputMessage = `Selected ${files.length} files.`;
 		}
+		if (onChange) await onChange();
 	}
 
 	function changeFiles(newFiles: FileList) {
@@ -59,18 +68,25 @@
 	{ondragleave}
 />
 
-<label class="mb-3 block" for="file-input">
-	<Button variant="outline" class="h-32 w-full" onclick={() => fileInput?.click()}>
-		<input
-			class="hidden"
-			id="file-input"
-			type="file"
-			accept="image/*"
-			multiple
-			bind:this={fileInput}
-			bind:files
-			onchange={handleChange}
-		/>
+<label class="block" for="file-input">
+	<input
+		class="hidden"
+		id="file-input"
+		type="file"
+		accept="image/*"
+		multiple
+		bind:this={fileInput}
+		bind:files
+		onchange={handleChange}
+	/>
+
+	<Button
+		variant="outline"
+		class="hidden h-32 w-full last:block"
+		onclick={() => fileInput?.click()}
+	>
 		{inputMessage}
 	</Button>
+
+	{@render children?.()}
 </label>

@@ -27,10 +27,27 @@
 		</ul>
 	</nav>
 
-	<!-- <h3 class="text-lg">Edit Images</h3>
+	<br />
+	<h3 class="text-lg font-bold">Edit Images</h3>
 	<nav>
 		<ul class="flex justify-center gap-1">
-			<li><Button variant="outline" href="/aspect-ratio/">Aspect Ratio Tool</Button></li>
+			<li><Button variant="outline" href="/rotate/">Rotate Tool</Button></li>
+			<!-- <li><Button variant="outline" href="/aspect-ratio/">Aspect Ratio Tool</Button></li> -->
 		</ul>
-	</nav> -->
+	</nav>
+
+	<br /><br />
+	<h3 class="text-lg font-bold">External Tools</h3>
+	<nav>
+		<ul>
+			<li>
+				<Button
+					variant="link"
+					rel="nofollow noopener"
+					target="_blank"
+					href="https://favicon.io/favicon-generator/">Simple Favicon Maker</Button
+				>
+			</li>
+		</ul>
+	</nav>
 </div>

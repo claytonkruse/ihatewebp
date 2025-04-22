@@ -52,6 +52,7 @@
 					const reader = new FileReader();
 					reader.addEventListener('load', () => res2(reader.result as string));
 					reader.addEventListener('error', () => rej2());
+
 					reader.readAsDataURL(file);
 				});
 			}).catch(() => (error += `Was unable to convert "${file.name}".`))) as HTMLImageElement;
@@ -129,6 +130,7 @@
 			<FileSelector bind:files />
 
 			{#if numFiles}
+				<br />
 				{#if numFiles > 1}
 					<label for="asarchive" class="mb-2 block">
 						<input
