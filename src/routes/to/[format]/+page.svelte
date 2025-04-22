@@ -6,6 +6,7 @@
 	import { Progress } from '$lib/components/ui/progress';
 	import { onMount } from 'svelte';
 	import FileSelector from '$lib/components/FileSelector.svelte';
+	import { Save } from '$lib/icons';
 
 	let { data }: { data: PageData } = $props();
 	let { name: format, aliases = [], ext = format.toLowerCase() } = data.format;
@@ -143,12 +144,12 @@
 						Archive Files
 					</label>
 					{#if prefersArchive}
-						<Button type="submit" class="mb-1">Save Archive</Button>
+						<Button type="submit" class="gap-1"><Save /> Save Archive</Button>
 					{:else}
-						<Button type="submit" class="mb-1">Save All</Button>
+						<Button type="submit" class="gap-1"><Save /> Save All</Button>
 					{/if}
 				{:else}
-					<Button type="submit">Save Image</Button>
+					<Button type="submit" class="gap-1"><Save /> Save Image</Button>
 				{/if}
 			{/if}
 			{#if error}

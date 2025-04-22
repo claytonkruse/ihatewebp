@@ -16,6 +16,9 @@
 		if (!src) return;
 		src = await rotate(src);
 	}
+
+	import RotateIcon from '~icons/tabler/rotate-clockwise-2';
+	import { Save } from '$lib/icons';
 </script>
 
 <div class="m-auto max-w-sm">
@@ -24,7 +27,7 @@
 	{#if src}
 		<br />
 		<div class="text-center">
-			<Button {onclick}>Rotate</Button>
+			<Button class="gap-1" {onclick}><RotateIcon /> Rotate</Button>
 		</div>
 	{/if}
 	<br />
@@ -36,8 +39,10 @@
 	{#if src}
 		<br />
 		<div class="text-center">
-			<Button onclick={() => download(src!, 'rotated_' + files![0].name.split('.')[0] + '.png')}
-				>Save Image</Button
+			<Button
+				class="gap-1"
+				onclick={() => download(src!, 'rotated_' + files![0].name.split('.')[0] + '.png')}
+				><Save /> Save Image</Button
 			>
 		</div>
 	{/if}
