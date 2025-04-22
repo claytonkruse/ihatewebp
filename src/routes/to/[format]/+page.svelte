@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import FileSelector from '$lib/components/FileSelector.svelte';
 	import { Save } from '$lib/icons';
+	import { createImgFromFile, download } from '$lib/imageUtils';
 
 	let { data }: { data: PageData } = $props();
 	let { name: format, aliases = [], ext = format.toLowerCase() } = data.format;
@@ -43,37 +44,22 @@
 
 		async function getDataUrl(file: File) {
 			const canvas = document.createElement('canvas');
-			const ctx = canvas.getContext('2d');
+			const ctx = canvas.getContext('2d')!;
 
-			const img = (await new Promise(async (res, rej) => {
-				const img = new Image();
-				img.addEventListener('load', () => res(img));
-				img.addEventListener('error', () => rej());
-				img.src = await new Promise((res2, rej2) => {
-					const reader = new FileReader();
-					reader.addEventListener('load', () => res2(reader.result as string));
-					reader.addEventListener('error', () => rej2());
-
-					reader.readAsDataURL(file);
-				});
-			}).catch(() => (error += `Was unable to convert "${file.name}".`))) as HTMLImageElement;
+			const img = await createImgFromFile(file);
 
 			canvas.width = img.width;
 			canvas.height = img.height;
-			ctx?.drawImage(img, 0, 0);
+			ctx.drawImage(img, 0, 0);
 
 			const url = canvas.toDataURL('image/' + format.toLowerCase());
-			canvas.remove();
-			numConverted++;
-			return url;
-		}
 
-		function download(url: string, name: string) {
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = name;
-			a.click();
-			a.remove();
+			img.remove();
+			canvas.remove();
+
+			numConverted++;
+
+			return url;
 		}
 
 		function rename(file: File) {

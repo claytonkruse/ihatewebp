@@ -1,4 +1,4 @@
-export function getImgFromUrl(url: URL | string): Promise<HTMLImageElement> {
+export function createImgFromURL(url: URL | string): Promise<HTMLImageElement> {
 	return new Promise((res, rej) => {
 		const img = new Image();
 		img.addEventListener('error', () => rej());
@@ -19,11 +19,15 @@ export function getDataURLFromFile(file: File): Promise<string> {
 	});
 }
 
+export async function createImgFromFile(file: File) {
+	return await createImgFromURL(await getDataURLFromFile(file));
+}
+
 export async function rotate(oldURL: string): Promise<string> {
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d')!;
 
-	const img = await getImgFromUrl(oldURL);
+	const img = await createImgFromURL(oldURL);
 
 	canvas.width = img.height;
 	canvas.height = img.width;
