@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import * as zip from '@zip.js/zip.js';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button';
 	import { Progress } from '$lib/components/ui/progress';
 	import { onMount } from 'svelte';
 	import FileSelector from '$lib/components/FileSelector.svelte';
 	import { Save } from '$lib/icons';
-	import { createImgFromFile, download } from '$lib/imageUtils';
+	import { createImgFromFile, save } from '$lib/imageUtils';
 
 	let { data }: { data: PageData } = $props();
 	let { name: format, aliases = [], ext = format.toLowerCase() } = data.format;
@@ -35,6 +35,30 @@
 		localStorage.setItem('prefersArchive', '' + prefersArchive); // refresh any potential expiry
 	});
 
+	async function getDataUrl(file: File) {
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d')!;
+
+		const img = await createImgFromFile(file);
+
+		canvas.width = img.width;
+		canvas.height = img.height;
+		ctx.drawImage(img, 0, 0);
+
+		const url = canvas.toDataURL('image/' + format.toLowerCase());
+
+		img.remove();
+		canvas.remove();
+
+		numConverted++;
+
+		return url;
+	}
+
+	function rename(file: File) {
+		return file.name.split('.').slice(0, -1).join('.') + '.' + ext;
+	}
+
 	async function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
 		submitted = true;
@@ -42,33 +66,10 @@
 		numArchived = 0;
 		if (!files || files.length < 1) return (error = 'You must select files.');
 
-		async function getDataUrl(file: File) {
-			const canvas = document.createElement('canvas');
-			const ctx = canvas.getContext('2d')!;
-
-			const img = await createImgFromFile(file);
-
-			canvas.width = img.width;
-			canvas.height = img.height;
-			ctx.drawImage(img, 0, 0);
-
-			const url = canvas.toDataURL('image/' + format.toLowerCase());
-
-			img.remove();
-			canvas.remove();
-
-			numConverted++;
-
-			return url;
-		}
-
-		function rename(file: File) {
-			return file.name.split('.').slice(0, -1).join('.') + '.' + ext;
-		}
-
 		if (prefersArchive && numFiles > 1) {
 			const zipWriter = new zip.ZipWriter(new zip.BlobWriter('application/zip'));
 			const promises = [];
+
 			for (const file of files) {
 				promises.push(
 					getDataUrl(file).then((url) =>
@@ -76,21 +77,24 @@
 					)
 				);
 			}
+
+			// Thank You Note
 			promises.push(
 				zipWriter.add(
 					'thank_you.txt',
 					new zip.TextReader(
-						`Thank you for using my image converter! https://tools.clayk.cc/to/${format.toLowerCase()}/` +
+						`Thank you for using my image file converter! https://ih8webp.com/convert/${format.toLowerCase()}/` +
 							'\n'
 					)
 				)
 			);
+
 			await Promise.all(promises);
-			download(URL.createObjectURL(await zipWriter.close()), `${numFiles}_to_${format}`);
+			save(URL.createObjectURL(await zipWriter.close()), `${numFiles}_to_${format}`);
 		} else {
 			const promises = [];
 			for (const file of files) {
-				promises.push(getDataUrl(file).then((url) => download(url, rename(file))));
+				promises.push(getDataUrl(file).then((url) => save(url, rename(file))));
 			}
 			await Promise.all(promises);
 		}
@@ -100,7 +104,7 @@
 </script>
 
 <svelte:head>
-	<title>Unlimited {format} Converter - Toolbox</title>
+	<title>Convert to {format} - iHATEWebP</title>
 </svelte:head>
 
 {#if !submitted}
@@ -112,9 +116,9 @@
 		</p>
 		<br />
 		<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
-			<input type="hidden" name="from" value={$page.url.href} />
+			<input type="hidden" name="from" value={page.url.href} />
 
-			<FileSelector bind:files />
+			<FileSelector bind:files multiple />
 
 			{#if numFiles}
 				<br />

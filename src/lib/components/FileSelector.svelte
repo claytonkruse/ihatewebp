@@ -1,28 +1,93 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { onMount } from 'svelte';
+	import { Label } from './ui/label';
+
+	import { createImgFromFile } from '$lib/imageUtils';
 
 	let inputMessage = $state('Loading...');
 	let fileInput: HTMLInputElement | undefined = $state();
 
 	let {
 		files = $bindable(),
-		onChange,
-		children
+		onchange: pOnChange,
+		multiple = false,
+		children,
+		accept
 	}: {
 		files?: FileList;
-		onChange?: Function;
+		onchange?: Function;
+		multiple?: true | false | undefined | null;
 		children?: any;
+		accept?: string;
 	} = $props();
 
+	let canvas: HTMLCanvasElement | undefined = $state();
+
 	async function handleChange() {
-		inputMessage = `Select Files`;
+		inputMessage = multiple ? 'Select Files' : 'Select File';
 		document.body.classList.remove('border-zinc-500', 'border-8');
-		if (files?.length) {
-			if (files.length === 1) inputMessage = 'Selected 1 file.';
-			else inputMessage = `Selected ${files.length} files.`;
+		if (!files?.length) return;
+
+		if (files.length === 1) inputMessage = 'Selected ' + files[0].name;
+		else inputMessage = `Selected ${files.length} files.`;
+
+		if (!canvas) return console.error('Could not get canvas for selector preview.');
+		const ctx = canvas.getContext('2d')!;
+
+		let num = files.length;
+		if (num > 4) num = 4;
+		console.log(num);
+		for (let i = num - 1; i >= 0; i--) {
+			console.log(i);
+			const file = files[i];
+			const img = await createImgFromFile(file);
+
+			const nR = 4 / 3;
+
+			const tw = 220;
+			const th = tw / nR;
+
+			const oR = img.width / img.height;
+
+			let sx, sy, sw, sh;
+			if (oR > nR) {
+				sw = nR * img.height;
+				sh = img.height;
+
+				sx = (img.width - sw) / 2;
+				sy = 0;
+			} else {
+				sw = img.width;
+				sh = img.width / nR;
+
+				sx = 0;
+				sy = (img.height - sh) / 2;
+			}
+
+			const bw = 8; // border width
+
+			const ox = 30 + i * -10;
+			const oy = 30 + i * 23;
+
+			ctx.resetTransform();
+			ctx.translate(ox, oy);
+			ctx.rotate((-(i - 0.8) * 3.14) / 16);
+
+			ctx.fillStyle = '#FFF';
+			ctx.shadowColor = 'rgba(0,0,0,0.5)'; // semi-transparent black
+			ctx.shadowBlur = 10; // blur radius
+			ctx.shadowOffsetX = 5; // horizontal offset
+			ctx.shadowOffsetY = 5; // vertical offset
+			ctx.fillRect(0, 0, tw + 2 * bw, th + 2 * bw);
+
+			ctx.shadowColor = '#00000000';
+			ctx.drawImage(img, sx, sy, sw, sh, bw, bw, tw, th);
+
+			img.remove();
 		}
-		if (onChange) await onChange();
+
+		if (pOnChange) pOnChange();
 	}
 
 	function changeFiles(newFiles: FileList) {
@@ -68,25 +133,30 @@
 	{ondragleave}
 />
 
-<label class="block" for="file-input">
+<Label class="m-auto block w-max" for="file-input">
 	<input
 		class="hidden"
 		id="file-input"
+		name="file-input"
 		type="file"
-		accept="image/*"
-		multiple
+		{multiple}
 		bind:this={fileInput}
 		bind:files
 		onchange={handleChange}
+		{accept}
 	/>
 
-	<Button
-		variant="outline"
-		class="hidden h-32 w-full last:block"
-		onclick={() => fileInput?.click()}
-	>
-		{inputMessage}
-	</Button>
+	{#if !files?.length}
+		<Button
+			variant="outline"
+			class="m-auto hidden h-32 w-48 last:block"
+			onclick={() => fileInput?.click()}
+		>
+			{inputMessage}
+		</Button>
+	{:else}
+		<canvas width="290" height="265" bind:this={canvas}></canvas>
+	{/if}
 
 	{@render children?.()}
-</label>
+</Label>

@@ -77,5 +77,12 @@
 :root,
 body {
 	@apply h-full;
-	@apply dark;
+}
+
+body {
+	@apply transition-colors;
+}
+
+* {
+	@apply box-border align-baseline;
 }
