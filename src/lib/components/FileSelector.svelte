@@ -24,22 +24,16 @@
 
 	let canvas: HTMLCanvasElement | undefined = $state();
 
-	async function handleChange() {
-		inputMessage = multiple ? 'Select Files' : 'Select File';
-		document.body.classList.remove('border-zinc-500', 'border-8');
+	async function renderPreview() {
 		if (!files?.length) return;
-
-		if (files.length === 1) inputMessage = 'Selected ' + files[0].name;
-		else inputMessage = `Selected ${files.length} files.`;
-
 		if (!canvas) return console.error('Could not get canvas for selector preview.');
 		const ctx = canvas.getContext('2d')!;
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		let num = files.length;
 		if (num > 4) num = 4;
 		console.log(num);
 		for (let i = num - 1; i >= 0; i--) {
-			console.log(i);
 			const file = files[i];
 			const img = await createImgFromFile(file);
 
@@ -70,22 +64,42 @@
 			const ox = 30 + i * -10;
 			const oy = 30 + i * 23;
 
-			ctx.resetTransform();
 			ctx.translate(ox, oy);
 			ctx.rotate((-(i - 0.8) * 3.14) / 16);
 
 			ctx.fillStyle = '#FFF';
-			ctx.shadowColor = 'rgba(0,0,0,0.5)'; // semi-transparent black
-			ctx.shadowBlur = 10; // blur radius
-			ctx.shadowOffsetX = 5; // horizontal offset
-			ctx.shadowOffsetY = 5; // vertical offset
+			ctx.shadowColor = 'rgba(0,0,0,0.5)';
+			ctx.shadowBlur = 10;
+			ctx.shadowOffsetX = 5;
+			ctx.shadowOffsetY = 5;
 			ctx.fillRect(0, 0, tw + 2 * bw, th + 2 * bw);
 
 			ctx.shadowColor = '#00000000';
 			ctx.drawImage(img, sx, sy, sw, sh, bw, bw, tw, th);
 
+			ctx.resetTransform();
 			img.remove();
 		}
+
+		ctx.shadowColor = '#000';
+		ctx.shadowBlur = 6;
+		ctx.shadowOffsetX = 2;
+		ctx.shadowOffsetY = 2;
+		ctx.fillStyle = 'gold';
+		ctx.font = 'bold 54px sans-serif';
+		ctx.textAlign = 'right';
+		ctx.fillText('' + files.length, 230, 230);
+	}
+
+	async function handleChange() {
+		inputMessage = multiple ? 'Select Files' : 'Select File';
+		document.body.classList.remove('border-zinc-500', 'border-8');
+		if (!files?.length) return;
+
+		if (files.length === 1) inputMessage = 'Selected ' + files[0].name;
+		else inputMessage = `Selected ${files.length} files.`;
+
+		renderPreview();
 
 		if (pOnChange) pOnChange();
 	}
@@ -155,7 +169,7 @@
 			{inputMessage}
 		</Button>
 	{:else}
-		<canvas width="290" height="265" bind:this={canvas}></canvas>
+		<canvas width="304" height="280" bind:this={canvas}></canvas>
 	{/if}
 
 	{@render children?.()}
