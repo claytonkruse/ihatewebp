@@ -96,8 +96,12 @@
 		document.body.classList.remove('border-zinc-500', 'border-8');
 		if (!files?.length) return;
 
-		if (files.length === 1) inputMessage = 'Selected ' + files[0].name;
-		else inputMessage = `Selected ${files.length} files.`;
+		let filename1 = files[0].name;
+		if (filename1.length > 25) filename1 = filename1.slice(0, 10) + '...' + filename1.slice(-6);
+
+		inputMessage = 'Selected ' + filename1;
+
+		if (files.length !== 1) inputMessage += ' +' + (files.length - 1) + ' more';
 
 		renderPreview();
 
@@ -169,7 +173,10 @@
 			{inputMessage}
 		</Button>
 	{:else}
-		<canvas width="304" height="280" bind:this={canvas}></canvas>
+		<figure class="hidden last:block">
+			<canvas width="304" height="280" bind:this={canvas}></canvas>
+			<figcaption>{inputMessage}</figcaption>
+		</figure>
 	{/if}
 
 	{@render children?.()}
