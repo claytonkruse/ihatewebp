@@ -42,6 +42,9 @@
 	<nav>
 		<ul class="flex flex-wrap justify-center gap-1">
 			<li><Button variant="outline" href="/rotate/">Rotate Tool</Button></li>
+			<li><Button variant="default" href="/flip/">Flip Tool</Button></li>
+			<li><Button variant="default" href="/caption/">Add Caption</Button></li>
+			<li><Button variant="default" href="/round/">Image Rounder</Button></li>
 			<li>
 				<Tooltip.Root>
 					<Tooltip.Trigger>
@@ -77,7 +80,7 @@
 	<br />
 	<h3 class="text-lg font-bold">General Utilities</h3>
 	<ul>
-		<li><Button variant="outline" href="/zip/">Create a ZIP Archive</Button></li>
+		<li><Button variant="default" href="/zip/">File Zipper</Button></li>
 	</ul>
 
 	<!-- <br /><br />

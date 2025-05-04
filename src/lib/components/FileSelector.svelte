@@ -173,6 +173,8 @@
 			{inputMessage}
 		</Button>
 	{:else}
+		<!-- It might be worth remaking this with HTML instead of a canvas. -->
+		<!-- I don't know why I didn't think of that in the first place. -->
 		<figure class="hidden last:block">
 			<canvas width="304" height="280" bind:this={canvas}></canvas>
 			<figcaption>{inputMessage}</figcaption>

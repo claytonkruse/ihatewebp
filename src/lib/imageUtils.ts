@@ -39,6 +39,46 @@ export function save(url: string, name: string) {
 	a.remove();
 }
 
+export async function flipYaw(oldURL: string): Promise<string> {
+	const canvas = document.createElement('canvas');
+	const ctx = canvas.getContext('2d')!;
+	const img = await createImgFromURL(oldURL);
+
+	canvas.width = img.width;
+	canvas.height = img.height;
+
+	ctx.translate(canvas.width, 0);
+	ctx.scale(-1, 1);
+	ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+	const url = canvas.toDataURL('image/png');
+
+	img.remove();
+	canvas.remove();
+
+	return url;
+}
+
+export async function flipPitch(oldURL: string): Promise<string> {
+	const canvas = document.createElement('canvas');
+	const ctx = canvas.getContext('2d')!;
+	const img = await createImgFromURL(oldURL);
+
+	canvas.width = img.width;
+	canvas.height = img.height;
+
+	ctx.translate(0, canvas.height);
+	ctx.scale(1, -1);
+	ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+	const url = canvas.toDataURL('image/png');
+
+	img.remove();
+	canvas.remove();
+
+	return url;
+}
+
 export async function rotate(oldURL: string): Promise<string> {
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d')!;

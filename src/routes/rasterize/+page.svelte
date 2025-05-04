@@ -45,6 +45,7 @@
 
 {#if files?.length}
 	<br />
+	<h2 class="font-bold">Vertical Resolution</h2>
 	<ResolutionSelector bind:value={vRes} />
 
 	<br />
