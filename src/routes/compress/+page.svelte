@@ -104,7 +104,7 @@
 	<br />
 	<hgroup>
 		<h2 class="font-bold">Vertical Resolution</h2>
-		<p><small>Orignally {oldRes}</small></p>
+		<p><small>Originally {oldRes}</small></p>
 	</hgroup>
 	<ResolutionSelector maxShown={oldRes} bind:value={newRes} />
 
