@@ -43,8 +43,8 @@
 		<ul class="flex flex-wrap justify-center gap-1">
 			<li><Button variant="outline" href="/flip/">Flip Tool</Button></li>
 			<li><Button variant="outline" href="/rotate/">Rotate Tool</Button></li>
-			<li><Button variant="default" href="/caption/">Add Caption</Button></li>
-			<li><Button variant="default" href="/round/">Image Rounder</Button></li>
+			<!-- <li><Button variant="default" href="/caption/">Add Caption</Button></li> -->
+			<!-- <li><Button variant="default" href="/round/">Image Rounder</Button></li> -->
 			<li>
 				<Tooltip.Root>
 					<Tooltip.Trigger>
@@ -77,11 +77,11 @@
 		</ul>
 	</nav>
 
-	<br />
+	<!-- <br />
 	<h3 class="text-lg font-bold">General Utilities</h3>
 	<ul>
 		<li><Button variant="default" href="/zip/">File Zipper</Button></li>
-	</ul>
+	</ul> -->
 
 	<!-- <br /><br />
 	<h3 class="mb-0 text-lg font-bold">External Tools (not associated with iHATEWebP)</h3>
