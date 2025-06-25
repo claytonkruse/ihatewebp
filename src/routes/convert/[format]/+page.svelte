@@ -108,45 +108,43 @@
 </svelte:head>
 
 {#if !submitted}
-	<div class="inline-block h-max w-72 self-center text-center">
-		<h1 class="text-xl font-bold">Convert Images to {format}</h1>
-		<p>
-			Convert images of any common format into the {format}{#each aliases as alias}/{alias}{/each}
-			format.
-		</p>
-		<br />
-		<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
-			<input type="hidden" name="from" value={page.url.href} />
+	<h1 class="text-xl font-bold">Convert Images to {format}</h1>
+	<p>
+		Convert images of any common format into the {format}{#each aliases as alias}/{alias}{/each}
+		format.
+	</p>
+	<br />
+	<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
+		<input type="hidden" name="from" value={page.url.href} />
 
-			<FileSelector bind:files multiple />
+		<FileSelector bind:files multiple />
 
-			{#if numFiles}
-				<br />
-				{#if numFiles > 1}
-					<label for="asarchive" class="mb-2 block">
-						<input
-							type="checkbox"
-							name="asarchive"
-							id="asarchive"
-							bind:checked={prefersArchive}
-							onchange={() => localStorage.setItem('prefersArchive', '' + prefersArchive)}
-						/>
-						Archive Files
-					</label>
-					{#if prefersArchive}
-						<Button type="submit" class="gap-1"><Save /> Save Archive</Button>
-					{:else}
-						<Button type="submit" class="gap-1"><Save /> Save All</Button>
-					{/if}
+		{#if numFiles}
+			<br />
+			{#if numFiles > 1}
+				<label for="asarchive" class="mb-2 block">
+					<input
+						type="checkbox"
+						name="asarchive"
+						id="asarchive"
+						bind:checked={prefersArchive}
+						onchange={() => localStorage.setItem('prefersArchive', '' + prefersArchive)}
+					/>
+					Archive Files
+				</label>
+				{#if prefersArchive}
+					<Button type="submit" class="gap-1"><Save /> Save Archive</Button>
 				{:else}
-					<Button type="submit" class="gap-1"><Save /> Save Image</Button>
+					<Button type="submit" class="gap-1"><Save /> Save All</Button>
 				{/if}
+			{:else}
+				<Button type="submit" class="gap-1"><Save /> Save Image</Button>
 			{/if}
-			{#if error}
-				<div>{error}</div>
-			{/if}
-		</form>
-	</div>
+		{/if}
+		{#if error}
+			<div>{error}</div>
+		{/if}
+	</form>
 {:else if !done}
 	<h1 class="text-3xl">Converting Files...</h1>
 	<p>Your download should start automatically.</p>

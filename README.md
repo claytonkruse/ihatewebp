@@ -13,14 +13,15 @@ A [SvelteKit](https://svelte.dev/docs/kit/introduction#What-is-SvelteKit) app fo
 - [x] SVG Rasterizer
 - [x] Image compressor (shrink to 1080p?)
 - [x] File selector show image previews
-- [ ] Flip Image Tool
+- [x] Flip Image Tool
 - [ ] Image Caption Adder
   - [ ] Polariod style
-- [ ] File Zipper (for people who can't use 7-Zip on their hardware, I suppose)
 - [ ] Image Rounder
   - [ ] Squricle/Superellipse (maybe go back and add this as an option on SVG Rasterizer)
   - [ ] Regular
   - [ ] Circle
+- [ ] Only create selection preview when requested via a prop
+- [ ] File Zipper (for people who can't install 7-Zip on their hardware, I suppose)
 - [ ] Automatically copy final image to clipboard
 - [ ] Reimplement imageUtils as a class
 - [ ] File Unzipper
@@ -29,3 +30,5 @@ A [SvelteKit](https://svelte.dev/docs/kit/introduction#What-is-SvelteKit) app fo
   - [ ] Downloadable version? (Ctrl-S saveable?)
 - [ ] Website icon maker & tool (added a link to a good one)
 - [ ] Video Compressor
+- [ ] Image Metadata Remover
+- [ ] Image Metadata Viewer

@@ -4,7 +4,7 @@
 
 {#if src}
 	<div class="checkerboard m-auto flex w-max outline-dotted outline-1">
-		<img {src} alt="Preview" class="m-auto h-48" />
+		<img {src} alt="Preview" class="m-auto h-64" />
 	</div>
 {:else}
 	<div class="m-auto flex h-48 w-48 animate-pulse items-center justify-center bg-secondary">

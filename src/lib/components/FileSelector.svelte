@@ -25,8 +25,8 @@
 	let canvas: HTMLCanvasElement | undefined = $state();
 
 	async function renderPreview() {
-		if (!files?.length) return;
 		if (!canvas) return console.error('Could not get canvas for selector preview.');
+		if (!files?.length) return;
 		const ctx = canvas.getContext('2d')!;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -61,7 +61,7 @@
 
 			const bw = 8; // border width
 
-			const ox = 30 + i * -10;
+			const ox = 60 + i * -10;
 			const oy = 30 + i * 23;
 
 			ctx.translate(ox, oy);
@@ -172,13 +172,20 @@
 		>
 			{inputMessage}
 		</Button>
-	{:else}
+	{:else if accept?.startsWith('image/')}
 		<!-- It might be worth remaking this with HTML instead of a canvas. -->
 		<!-- I don't know why I didn't think of that in the first place. -->
 		<figure class="hidden last:block">
-			<canvas width="304" height="280" bind:this={canvas}></canvas>
+			<canvas width="334" height="278" bind:this={canvas}></canvas>
 			<figcaption>{inputMessage}</figcaption>
 		</figure>
+	{:else}
+		<h2 class="text-lg font-bold">Selected {files.length} files:</h2>
+		<ol class="list-decimal text-left leading-snug">
+			{#each files as file}
+				<li>{file.name}</li>
+			{/each}
+		</ol>
 	{/if}
 
 	{@render children?.()}

@@ -10,7 +10,7 @@
 <h1 class="text-4xl font-bold">i<span class="text-red-600">HATE</span>WebP Toolbox</h1>
 
 <br />
-<div class="m-auto text-center">
+<div class="m-auto max-w-2xl text-center">
 	<h3 class="text-xl font-bold">Convert Images</h3>
 	<nav>
 		<ul class="flex flex-wrap justify-center gap-1">
@@ -41,8 +41,8 @@
 	<h3 class="text-lg font-bold">Edit Images</h3>
 	<nav>
 		<ul class="flex flex-wrap justify-center gap-1">
+			<li><Button variant="outline" href="/flip/">Flip Tool</Button></li>
 			<li><Button variant="outline" href="/rotate/">Rotate Tool</Button></li>
-			<li><Button variant="default" href="/flip/">Flip Tool</Button></li>
 			<li><Button variant="default" href="/caption/">Add Caption</Button></li>
 			<li><Button variant="default" href="/round/">Image Rounder</Button></li>
 			<li>
