@@ -19,8 +19,8 @@
 		<header class="mb-4">
 			{#if page.route.id === '/'}{:else}
 				<nav class="float-left flex">
-					<a class="mr-2 block text-2xl font-bold" href="/more/"
-						>i<span class="text-red-600">HATE</span>WebP</a
+					<a class="mr-2 block text-2xl font-bold" href="/"
+						>i<span class="text-red-500">HATE</span>WebP</a
 					>
 					<ul class="flex gap-3">
 						<li>
@@ -30,11 +30,11 @@
 							<Button variant="link" class="px-0 text-muted-foreground" href="/about/">About</Button
 							>
 						</li>
-						<li>
-							<Button variant="link" class="px-0 text-muted-foreground" href="/contribute/"
-								>Contribute</Button
+						<!-- <li>
+							<Button variant="link" class="px-0 text-muted-foreground" href="/contributing/"
+								>Contributing</Button
 							>
-						</li>
+						</li> -->
 					</ul>
 				</nav>
 			{/if}

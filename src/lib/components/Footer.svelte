@@ -6,11 +6,14 @@
 <footer class="pt-8 text-center">
 	<nav class="flex justify-between">
 		<ul class="flex gap-4">
-			<li>
+			<!-- <li>
 				<Button variant="link" class="px-0 text-muted-foreground" href="/about/">About</Button>
-			</li>
+			</li> -->
 			<li>
 				<Button variant="link" class="px-0 text-muted-foreground" href="/convert/">Convert</Button>
+			</li>
+			<li>
+				<Button variant="link" class="px-0 text-muted-foreground" href="/flip/">Flip</Button>
 			</li>
 			<li>
 				<Button variant="link" class="px-0 text-muted-foreground" href="/rotate/">Rotate</Button>
@@ -30,11 +33,16 @@
 				>
 			</li>
 			<li>
-				<Button variant="link" class="px-0 text-muted-foreground" href="/more/">More Tools</Button>
+				<Button variant="link" class="px-0 text-muted-foreground" href="/">More Tools</Button>
 			</li>
 		</ul>
 
 		<ul class="flex gap-4 align-baseline">
+			<li>
+				<Button variant="link" class="px-0 text-muted-foreground" href="/about/"
+					>About iHATEWebP</Button
+				>
+			</li>
 			<li>
 				<Button variant="link" class="px-0 text-muted-foreground" href="https://claytonkruse.com/"
 					>Clayton Kruse</Button

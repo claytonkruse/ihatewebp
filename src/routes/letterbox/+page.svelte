@@ -57,7 +57,12 @@
 
 <hgroup>
 	<h1 class="text-3xl font-bold">Letterbox</h1>
-	<p>Change the aspect ratio of an image by letterboxing or pillarboxing (adding black bars).</p>
+	<p>
+		Change the aspect ratio of an image by <a
+			href="https://en.wikipedia.org/wiki/Letterboxing_(filming)">letterboxing</a
+		>
+		or <a href="https://en.wikipedia.org/wiki/Pillarbox">pillarboxing</a> (adding black bars).
+	</p>
 </hgroup>
 
 <br />
