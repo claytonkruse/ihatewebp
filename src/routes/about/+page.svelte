@@ -18,8 +18,8 @@
 		</li>
 		<li>Q: Can I link users of my web app to these tools?<br />A: Yes.</li>
 		<li>
-			Q: How do I contribute?<br />A: Visit
-			<a href="/contribute/" class="text-red-600 underline">this page</a> for more information.
+			Q: How do I contribute?<br />A: Visit the
+			<a href="/contribute/" class="text-blue-600 hover:text-red-600">Contriubte</a> page for more information.
 		</li>
 	</ol>
 </section>
