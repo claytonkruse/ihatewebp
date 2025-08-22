@@ -117,7 +117,7 @@
 	<form method="GET" action="/no-js/" onsubmit={handleSubmit}>
 		<input type="hidden" name="from" value={page.url.href} />
 
-		<FileSelector bind:files multiple />
+		<FileSelector bind:files accept="image/*" multiple />
 
 		{#if numFiles}
 			<br />
