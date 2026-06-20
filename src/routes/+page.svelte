@@ -15,13 +15,13 @@
 <div class="flex h-full flex-col justify-center">
 	<hgroup class="mb-6 text-center">
 		<h1 class="text-5xl font-bold">i<span class="text-red-500">HATE</span>WebP</h1>
-		<h2 class="text-muted-foreground">Convert Unlimited Images for Free</h2>
+		<p class="text-muted-foreground">Convert Unlimited Images for Free</p>
 	</hgroup>
 
 	<br />
 	<div class="mx-auto max-w-2xl text-center">
 		<nav>
-			<h3 class="text-xl font-bold">Convert Images</h3>
+			<h2 class="text-xl font-bold">Convert Images</h2>
 			<ul class="flex flex-wrap justify-center gap-1">
 				<li><Button variant="outline" href="/convert/png/">To PNG</Button></li>
 				<li><Button variant="outline" href="/convert/jpeg/">To JPEG</Button></li>
@@ -55,7 +55,7 @@
 
 		<br />
 		<nav>
-			<h3 class="text-lg font-bold">Edit Images</h3>
+			<h2 class="text-lg font-bold">Edit Images</h2>
 			<ul class="flex flex-wrap justify-center gap-1">
 				<li><Button variant="outline" href="/flip/">Flip Tool</Button></li>
 				<li><Button variant="outline" href="/rotate/">Rotate Tool</Button></li>
@@ -95,6 +95,13 @@
 			</ul>
 		</nav>
 
+		<nav class="mt-4">
+			<h2 class="text-lg font-bold">Misc.</h2>
+			<ul class="flex flex-wrap justify-center gap-1">
+				<li><Button variant="outline" href="/password-generator/">Password Generator</Button></li>
+			</ul>
+		</nav>
+
 		<!-- <br />
 	<nav>
 		<h3 class="text-lg font-bold">General Utilities</h3>
@@ -128,5 +135,4 @@
 		</ul>
 	</nav> -->
 	</div>
-	<br /><br /><br />
 </div>

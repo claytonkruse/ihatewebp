@@ -15,7 +15,7 @@
 <ModeWatcher disableTransitions={false} />
 
 <TooltipProvider>
-	<div class="flex h-full flex-col px-5 pt-2">
+	<div class="flex min-h-svh flex-col px-5 pt-2">
 		<header class="mb-4">
 			{#if page.route.id === '/'}{:else}
 				<nav class="float-left flex">
@@ -43,7 +43,7 @@
 				<ul>
 					<li>
 						<Button variant="ghost" size="icon" onclick={toggleMode}>
-							{#if $mode === 'light'}
+							{#if mode.current === 'light'}
 								<Sun />
 							{:else}
 								<Moon />
@@ -54,7 +54,7 @@
 			</nav>
 		</header>
 
-		<main class="grow text-center" id="main">
+		<main class="flex-1 text-center" id="main">
 			{@render children()}
 		</main>
 

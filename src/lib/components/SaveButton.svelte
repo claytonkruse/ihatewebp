@@ -9,6 +9,6 @@
 	}
 </script>
 
-<Button {onclick} disabled={!dataURL} class="gap-1 bg-green-400 text-primary dark:bg-green-600"
+<Button {onclick} disabled={!dataURL} class="gap-1 bg-green-700 text-primary-foreground "
 	><Save /> Save {thing}</Button
 >
