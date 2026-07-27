@@ -11,6 +11,7 @@ eighth
 ninth
 tenth
 eleventh
+twelfth
 thirteenth
 fourteenth
 fifteenth
@@ -93,6 +94,10 @@ millennium
 
 cent
 percent
+dime
+dame
+heroine
+
 
 bluegill
 gill
@@ -141,10 +146,22 @@ wolfram
 tungsten
 lithium
 uranium
+plutonium
+thorium
+radium
+isotope
+fission
+fusion
+mercury
+cadmium
 toxic
 radioactive
 radioactivity
 neon
+helium
+krypton
+xenon
+radon
 argon
 copper
 zinc
@@ -154,7 +171,6 @@ cobalt
 chromium
 magnesium
 nickel
-lead
 tin
 platinum
 gold
@@ -194,7 +210,7 @@ breast
 breath
 breathe
 chest
-Zen
+zen
 garden
 gardener
 gardening
@@ -252,6 +268,7 @@ bullet
 bull
 rage
 rape
+raped
 grape
 apple
 fruit
@@ -263,9 +280,40 @@ fishies
 fishing
 fished
 complementary
+condolences
+
+soul
+ensouled
+imbue
+imbued
+hate
+hatred
+loathe
+loathsome
+loathing
+disgust
+disgusting
+disgrace
+disgraceful
+salience
+
+sovereign
+sovereignty
+
+# Titles
+Sovereign
+Master
+Mistress
+Mister
+Miss
+Misses
+King
+Queen
+Sultan
 
 # Names
-Ford
+Grier
+Bolt
 Zenith
 Steve
 Rogers
@@ -274,13 +322,8 @@ Tron
 Donald
 Trump
 Barron
-lord
-lady
-master
-mistress
-mister
-miss
-misses
+Lord
+Lady
 Adolf
 Hitler
 Aragorn
@@ -289,7 +332,7 @@ Rubeus
 Hagrid
 Harry
 Potter
-Ablus
+Albus
 Dumbledore
 Osbourne
 Osborne
@@ -305,6 +348,7 @@ Titor
 Jack
 Jacob
 Edward
+Kruse
 Peter
 Simon
 Daniel
@@ -315,13 +359,11 @@ Antony
 Tony
 Stark
 Wayne
+Chief
 
-Halo
+halo
 holy
 marriage
-
-king
-queen
 
 # German
 Kaiser
@@ -341,13 +383,20 @@ magenta
 cyan
 black
 
-pharaoh
+Pharaoh
 nova
 star
 
 # Myth
 unicorn
 chimera
+basilisk
+Hydra
+Cerberus
+Medusa
+Prometheus
+Cronus
+Kronos
 Zeus
 Poseidon
 Artemis
@@ -363,9 +412,14 @@ Nike
 Rhea
 Styx
 
+creed
+greed
+
 Aquarius
 
 # Animals
+wolf
+wolves
 beaver
 beavers
 otter
@@ -396,6 +450,7 @@ pup
 puppy
 puppies
 
+
 fallacy
 fallacious
 
@@ -425,6 +480,11 @@ speed
 octane
 octave
 board
+best
+smarter
+faster
+stronger
+better
 hierarchy
 patriarch
 patriarchy
@@ -489,6 +549,19 @@ bluepilled
 normie
 noob
 nooblet
+Chad
+Stacy
+doomer
+coomer
+zoomer
+copium
+hopium
+based
+frog
+pepe
+Gigachad
+NPC
+
 
 # Misc
 alpha
@@ -509,25 +582,47 @@ junior
 senior
 super
 
-Matrix
+matrix
 lolipop
 soda
 alcohol
 alcoholic
 
+dome
+unleaded
+
+grief
+griever
+grieving
+widow
+widower
+
+pawn
+Knight
+Bishop
+rook
+
+
 Roxanne
 mega
 meta
 
+Loid
+Yor
+
 # Otaku
-darkness
-dustiness
+tsundere
+yandere
+kuudere
+dandere
+Darkness
+Dustiness
 Ford
 Lalatina
 Megumin
-senpai
-sensei
-kouhai
+Senpai
+Sensei
+Kouhai
 loli
 shota
 lolisho
@@ -555,6 +650,9 @@ Ram
 Beatrice
 Betty
 Beako
+Frederica
+Bowman
+Tinsel
 Saito
 Kazuma
 Kirito
@@ -566,6 +664,7 @@ Satoshi
 Nakamoto
 Yagami
 Hoshino
+Ai
 Aqua
 Ruby
 Akane
@@ -621,6 +720,13 @@ countess
 duchess
 prince
 
+Chess
+piece
+pieces
+
+panopticon
+surveillance
+
 # Pokemon
 Ditto
 Pikachu
@@ -649,7 +755,6 @@ rivalry
 unbridled
 restrained
 restrain
-restraint
 restraint
 surcease
 without
@@ -686,4 +791,53 @@ weapons
 weapon
 arms
 armed
+Orsted
+Orwell
+Orwellian
+retroactive
 
+Steins
+Gate
+
+totalitarian
+totalitarianism
+
+hyperthermia
+hypothermia
+luck
+lucky
+poker
+gamble
+gambling
+casino
+dream
+dreams
+dreaming
+
+american
+americanism
+not
+globalism
+creedo
+
+global
+globe
+Atlas
+Jacobian
+
+autocrat
+autocracy
+hegemony
+
+
+versus
+
+Stalin
+Trotsky
+
+scapegoat
+hellscape
+
+terminal
+terminate
+terminator
